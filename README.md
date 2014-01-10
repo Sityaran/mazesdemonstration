@@ -1,6 +1,6 @@
 Mazes Demonstration
 ====================
-Utilizing python and pygame to visually demonstrate randmoized maze generation and algorithms that can be used to solve these mazes.
+Utilizing python and pygame to visually demonstrate randomized search algorithms to generate mazes and a variety of search algorithms that can be used to solve these mazes.
 
 Changelog
 -----------
