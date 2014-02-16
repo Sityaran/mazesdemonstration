@@ -1,6 +1,7 @@
 import pygame,sys
 from pygame.locals import *
 from lib.mazegen import *
+from lib.mazesolve import *
 
 # ################
 # initialization #-
@@ -9,35 +10,61 @@ pygame.init()
 #the number of cells being used, so not actually an accurate representation of width and height
 width = int(raw_input("width: "))
 height = int(raw_input("height: "))
+window_scale = int(raw_input("window scale: "))
 
-windowSurfaceObj = pygame.display.set_mode((width*2 +1,height*2 +1)) 
+windowSurfaceObj = pygame.display.set_mode(((width*2 +1)*window_scale,(height*2 +1)*window_scale)) 
 pygame.display.set_caption('Mazes')
 black = pygame.Color(0,0,0)
-black2 = pygame.Color(0,0,1) # for indicating borders and irrelevant grid points
 white = pygame.Color(255,255,255)
 red = pygame.Color(255,0,0)
 
 graph = pygame.PixelArray(windowSurfaceObj)
-depthfirst.setup(graph, white, black, black2)
-#prims.setup(graph, white, black, black2)
 
-# unanimated version, to be run once
+prims.setup(width,height)
+drawq = prims.prims()
+solveq = DFS.solve(prims.grid,(1,1),((width*2)-1,(height*2)-1))
 
-#depthfirst.depthfirst(graph, white) 
-#prims.prims(graph, white, black2)
-
+#depthfirst.setup(width,height)
+#drawq = depthfirst.depthfirst()
+#solveq = DFS.solve(depthfirst.grid,(1,1),((width*2)-1,(height*2)-1))
 
 # ##############
 # main #
 # ##############
 
 while True:
+	
+
+	# draw
 	graph = pygame.PixelArray(windowSurfaceObj)
+	if len(drawq) > 0:
+		x,y = drawq[0][0] * window_scale , drawq[0][1] * window_scale
+		for xs in range(window_scale):
+			for ys in range(window_scale): 
+				graph[x + xs][y + ys] = white
+		drawq.pop(0)
+		del graph
 	
-	# animated versions
-	#prims.prims_animated(graph, white, black2)
-	depthfirst.depthfirst_animated(graph, white)
-	
+	# solve
+	if len(drawq) == 0:
+		graph = pygame.PixelArray(windowSurfaceObj)
+		if len(solveq) > 0:
+			x,y = solveq[0][0] * window_scale , solveq[0][1] * window_scale
+			for xs in range(window_scale):
+				for ys in range(window_scale): 
+					graph[x + xs][y + ys] = red
+			solveq.pop(0)
+			pygame.time.wait(20)
+			del graph
+			
+	for g in [(1,1),((width*2)-1,(height*2)-1)]:
+		x,y = g[0]*window_scale,g[1]*window_scale
+		for xs in range(window_scale):
+			for ys in range(window_scale): 
+				graph = pygame.PixelArray(windowSurfaceObj)
+				graph[x + xs][y + ys] = pygame.Color(0,0,255)
+				del graph
+
 	for event in pygame.event.get():
 		if event.type == KEYDOWN:
 			if event.key == K_SPACE: #debugging, recommended not to use for large mazes
