@@ -4,6 +4,15 @@ Utilizing python and pygame to visually demonstrate randomized search algorithms
 
 Changelog
 -----------
+
+###16 Feb 2014
+* +Finished implementing preliminary solving algorithm
+* +Implemented tree structure
+* +Finished implementing scaling of the maze
+	* +Small visual improvements
+* A* search implementation being worked on
+
+
 ###8 Jan 2014
 * +Finished implementing randomized DFS as an extra maze generation algorithm
 * +Moved algorithm methods to their own class
@@ -14,8 +23,9 @@ Changelog
 
 To-do
 -----------
-* Basic implemenation an algorithm to solve the maze (A*?)
-* Scaling of cell and wall sizes for easier viewing
-* Otimization and other maze-generation methdods ?
-* Rewriting algorithm methods to keep coding style consistant
+* Basic implementation an algorithm to solve the maze (A*?) [DONE]
+* Scaling of cell and wall sizes for easier viewing [DONE]
+* Optimization and other maze-generation methods ?
+* Rewriting algorithm methods to keep coding style consistent
+* 
 

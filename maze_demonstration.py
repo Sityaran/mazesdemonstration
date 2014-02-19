@@ -22,7 +22,6 @@ graph = pygame.PixelArray(windowSurfaceObj)
 
 prims.setup(width,height)
 drawq = prims.prims()
-solveq = DFS.solve(prims.grid,(1,1),((width*2)-1,(height*2)-1))
 
 #depthfirst.setup(width,height)
 #drawq = depthfirst.depthfirst()
@@ -31,10 +30,9 @@ solveq = DFS.solve(prims.grid,(1,1),((width*2)-1,(height*2)-1))
 # ##############
 # main #
 # ##############
-
+solveq = []
+gag = 0
 while True:
-	
-
 	# draw
 	graph = pygame.PixelArray(windowSurfaceObj)
 	if len(drawq) > 0:
@@ -45,8 +43,12 @@ while True:
 		drawq.pop(0)
 		del graph
 	
+	
 	# solve
 	if len(drawq) == 0:
+		if gag == 0:
+			solveq = DFS.solve(prims.grid,(1,1),((width*2)-1,(height*2)-1))
+			gag+=1
 		graph = pygame.PixelArray(windowSurfaceObj)
 		if len(solveq) > 0:
 			x,y = solveq[0][0] * window_scale , solveq[0][1] * window_scale
@@ -67,15 +69,6 @@ while True:
 
 	for event in pygame.event.get():
 		if event.type == KEYDOWN:
-			if event.key == K_SPACE: #debugging, recommended not to use for large mazes
-				for x in range(len(graph)):
-					for y in range(len(graph[x])):
-						if graph[x][y] == 1:
-							print 1,
-						else:
-							print ' ',
-					print
-			
 			if event.key == K_ESCAPE:
 				pygame.quit()
 				sys.exit()
